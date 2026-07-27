@@ -71,8 +71,10 @@ This is because the map holds the strings as `std::sync::Weak<str>`s.
 ```rust
 use weak_table::WeakKeyHashMap;
 use std::sync::{Arc, Weak};
+# fn x() {
+# type WeakKeyHashMap<T,U> = weak_table::WeakKeyHashMap<T, U, ahash::RandomState>;
 
-let mut table = <WeakKeyHashMap<Weak<str>, u32>>::new();
+let mut table = <WeakKeyHashMap<Weak<str>, u32>>::default();
 let one = Arc::<str>::from("one");
 let two = Arc::<str>::from("two");
 
@@ -91,6 +93,8 @@ drop(one);
 
 assert_eq!( table.get("one"), None );
 assert_eq!( table.get("two"), Some(&2) );
+# }
+# x();
 ```
 
 Here we use a weak hash set to implement a simple string interning facility:
@@ -99,6 +103,8 @@ Here we use a weak hash set to implement a simple string interning facility:
 use weak_table::WeakHashSet;
 use std::ops::Deref;
 use std::rc::{Rc, Weak};
+# fn x() {
+# type WeakHashSet<T> = weak_table::WeakHashSet<T, ahash::RandomState>;
 
 #[derive(Clone, Debug)]
 pub struct Symbol(Rc<str>);
@@ -137,17 +143,16 @@ impl SymbolTable {
     }
 }
 
-fn interning_test() {
-    let mut tab = SymbolTable::new();
+let mut tab = SymbolTable::new();
 
-    let a0 = tab.intern("a");
-    let a1 = tab.intern("a");
-    let b  = tab.intern("b");
+let a0 = tab.intern("a");
+let a1 = tab.intern("a");
+let b  = tab.intern("b");
 
-    assert_eq!(a0, a1);
-    assert_ne!(a0, b);
-}
-# interning_test();
+assert_eq!(a0, a1);
+assert_ne!(a0, b);
+# }
+# x();
 ```
 
 [ahash-issue]: https://github.com/tov/weak-table-rs/issues/23

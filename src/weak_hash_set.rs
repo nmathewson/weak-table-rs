@@ -39,8 +39,10 @@ impl<T: WeakKey, S: BuildHasher> WeakHashSet<T, S> {
     /// use weak_table::WeakHashSet;
     /// use std::rc::{Rc, Weak};
     /// use std::ops::Deref;
+    /// # fn x() {
+    /// # type WeakHashSet<T> = weak_table::WeakHashSet<T, ahash::RandomState>;
     ///
-    /// let mut set: WeakHashSet<Weak<String>> = WeakHashSet::new();
+    /// let mut set: WeakHashSet<Weak<String>> = WeakHashSet::default();
     ///
     /// let a = Rc::new("a".to_owned());
     /// set.insert(a.clone());
@@ -48,6 +50,8 @@ impl<T: WeakKey, S: BuildHasher> WeakHashSet<T, S> {
     /// let also_a = set.get("a").unwrap();
     ///
     /// assert!(Rc::ptr_eq( &a, &also_a ));
+    /// # }
+    /// # x();
     /// ```
     ///
     /// expected *O*(1) time; worst-case *O*(*p*) time
