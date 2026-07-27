@@ -21,9 +21,6 @@ bench = false
 default = ["std"]
 std = []
 
-# This feature doesn’t actually do anything. TODO: remove in v0.4.
-alloc = []
-
 [dependencies]
 cfg-if = "1"
 # Note that this feature is deprecated and will be removed.
