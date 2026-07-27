@@ -70,10 +70,12 @@ pub struct WeakKeyHashMap<K, V, ?S>(inner::Table<inner::WeakK<K>, inner::Owned<V
 /// ```
 /// use weak_table::PtrWeakKeyHashMap;
 /// use std::rc::{Rc, Weak};
+/// # fn x() {
+/// # type PtrWeakKeyHashMap<T, U> = weak_table::PtrWeakKeyHashMap<T, U, ahash::RandomState>;
 ///
 /// type Table = PtrWeakKeyHashMap<Weak<str>, usize>;
 ///
-/// let mut map = Table::new();
+/// let mut map = Table::default();
 /// let a = Rc::<str>::from("hello");
 /// let b = Rc::<str>::from("hello");
 ///
@@ -86,6 +88,8 @@ pub struct WeakKeyHashMap<K, V, ?S>(inner::Table<inner::WeakK<K>, inner::Owned<V
 ///
 /// assert_eq!( map.get(&a), Some(&5) );
 /// assert_eq!( map.get(&b), Some(&7) );
+/// }
+/// x();
 /// ```
 #[derive(Clone)]
 pub struct PtrWeakKeyHashMap<K, V,?S>(WeakKeyHashMap<by_ptr::ByPtr<K>, V, S>);
