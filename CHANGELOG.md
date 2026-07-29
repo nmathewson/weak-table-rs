@@ -10,10 +10,22 @@ The format is based on [Keep a Changelog] and this project adheres to
 
 ## [Next Release]
 
+This release improves performance and correctness
+by replacing the backend with [`hashbrown`].
+It also adds numerous APIs, and extensive tests.
+
+There are breaking changes in this release,
+but they should not affect most users.
+Notably, the `alloc` feature has been removed,
+the `ahash` feature has been deprecated,
+and the minimum supported rust version for this crate
+has been increased to 1.65.
+See below for more details.
+
 ### Added
 
 - High-coverage unit tests for the hash table backend.
-- High-coverage unit tests for all frontends.
+- High-coverage unit tests for all maps and sets.
 - Property tests for all of the exposed map and set types.
 - Benchmarks based on `criterion`.
 
@@ -52,21 +64,28 @@ The format is based on [Keep a Changelog] and this project adheres to
   If you do, there will be no default `BuildHasher`,
   and the `new()` and `with_capacity()` methods will be absent.
 
+### Removed
+
+- The non-functional `alloc` feature has been removed.
+
+### Deprecated
+
+- The `ahash` feature is now deprecated for [security reasons](github#23).
+  Instead, use the constructors that allow you to specify
+  a `BuildHasher` manually.
+
 ### Changed (visible)
 
 - All hash-tables now use a new backend based on [`hashbrown`]
   for improved speed and correctness.
   (Benchmarks report a speedup around 30-50%.)
 - The Minimum Supported Rust Version is now 1.65.
-  (This is necessary to use `hashbrown`.)
+  (This is necessary to use `hashbrown` version 0.16.)
 - The default capacity for new tables is now zero.
 - Changed `load_factor()` to return a value closer to the table's
   actual load factor.
 - Methods that do not require the element type to be WeakKey or
   WeakElement no longer constrain their parameters in this way.
-- The `ahash` feature is now deprecated for [security reasons](github#23).
-  Instead, use the constructors that allow you to specify
-  a `BuildHasher` manually.
 - Constructors are now `#[must_use]`.
 - ExtractIf iterators are now `#[must_use]`.
 
@@ -87,7 +106,8 @@ The format is based on [Keep a Changelog] and this project adheres to
   share code.
 - A great deal of common code has been extracted into macros,
   to avoid the risk of copy-and-paste errors.
-- When ahash is enabled, we now use version 0.8.12 or later.
+- When `ahash` is enabled, we now use `ahash` version 0.8.12 or later.
+- The `rand` dev-dependency has been removed.
 
 ### Fixed
 
@@ -96,14 +116,15 @@ The format is based on [Keep a Changelog] and this project adheres to
   removed. ([github#22])
 - Fix a bug in `load_factor()` calculation where it would return
   `inf` for a zero-capacity table.
-- Changed the output of Debug for WeakHashSet and PtrWeakHashSet
-  to display them as sets, not as maps to ().
+- Changed the output of Debug for `WeakHashSet` and `PtrWeakHashSe`t
+  to display them as sets, not as maps to `()`.
 - Eliminated some possible integer overflows when trying to reserve
   very high capacities.
 
 ### Documentation
-  - Cleaned up documentation that referred to sets as maps,
-    or claimed that they had separate keys and values.
+- Cleaned up documentation that referred to sets as maps,
+  or claimed that they had separate keys and values.
+
 
 ## [0.3.2] - 2021-12-01
 
