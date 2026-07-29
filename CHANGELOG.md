@@ -69,6 +69,7 @@ The format is based on [Keep a Changelog] and this project adheres to
   a `BuildHasher` manually.
 - Constructors are now `#[must_use]`.
 - ExtractIf iterators are now `#[must_use]`.
+- The non-functional `alloc` feature has been removed.
 
 ### Changed (internal)
 
@@ -88,6 +89,7 @@ The format is based on [Keep a Changelog] and this project adheres to
 - A great deal of common code has been extracted into macros,
   to avoid the risk of copy-and-paste errors.
 - When ahash is enabled, we now use version 0.8.12 or later.
+- The `rand` dev-dependency has been removed.
 
 ### Fixed
 
