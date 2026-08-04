@@ -22,10 +22,10 @@ default = ["std"]
 std = []
 
 [dependencies]
-cfg-if = "1"
 # Note that this feature is deprecated and will be removed.
 # TODO 050: remove.
 ahash = { version = "0.8.12", optional = true, default-features = false, features = ["runtime-rng"] }
+cfg-if = "1"
 hashbrown = { version = "0.16.1", default-features = false, features = ["inline-more"] }
 
 [dev-dependencies]
